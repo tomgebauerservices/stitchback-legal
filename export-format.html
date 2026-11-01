@@ -22,12 +22,14 @@ nav{font-size:14px;margin-bottom:24px}
   "items": [
     { "key": "merge:&lt;merge ID&gt;", "value": { } },
     { "key": "running:&lt;issue key&gt;", "value": { } },
-    { "key": "last:&lt;issue key&gt;", "value": "&lt;merge ID&gt;" },
     { "key": "runlock:&lt;merge ID&gt;", "value": { } },
     { "key": "retention:cursor", "value": { } }
+  ],
+  "lookup": [
+    { "key": "last:&lt;issue key&gt;", "value": "&lt;merge ID&gt;" }
   ]
 }</code></pre>
-<table><thead><tr><th>Field</th><th>Meaning</th></tr></thead><tbody><tr><td><code>app</code>, <code>format</code></td><td>Product name and format version. A change that is not backwards compatible gets a new format version</td></tr><tr><td><code>exportedAt</code></td><td>Time of the export</td></tr><tr><td><code>retentionDays</code></td><td>Retention period applied by the installation</td></tr><tr><td><code>items</code></td><td>All stored entries as key–value pairs, in storage order</td></tr></tbody></table>
+<table><thead><tr><th>Field</th><th>Meaning</th></tr></thead><tbody><tr><td><code>app</code>, <code>format</code></td><td>Product name and format version. A change that is not backwards compatible gets a new format version</td></tr><tr><td><code>exportedAt</code></td><td>Time of the export</td></tr><tr><td><code>retentionDays</code></td><td>Retention period applied by the installation</td></tr><tr><td><code>items</code></td><td>All stored entries except the <code>last:</code> entries, as key–value pairs, in storage order</td></tr><tr><td><code>lookup</code></td><td>The <code>last:</code> entries (Section 4), as key–value pairs. <code>items</code> and <code>lookup</code> together hold every stored key</td></tr></tbody></table>
 <h2>4. Keys</h2>
 <table><thead><tr><th>Key</th><th>Value</th></tr></thead><tbody><tr><td><code>merge:&lt;merge ID&gt;</code></td><td>The <strong>merge record</strong> (Section 5)</td></tr><tr><td><code>running:&lt;issue key&gt;</code></td><td>Lock while a merge of this source issue is running: <code>{ "id": &lt;merge ID&gt;, "at": &lt;timestamp&gt; }</code></td></tr><tr><td><code>last:&lt;issue key&gt;</code></td><td>ID of the most recent merge in which this issue was source or target</td></tr><tr><td><code>runlock:&lt;merge ID&gt;</code>, <code>undolock:&lt;merge ID&gt;</code></td><td>Lock for one stage of a merge or of an undo: <code>{ "token": &lt;random string&gt;, "until": &lt;timestamp&gt; }</code>. No personal data. Expired locks are removed by the daily clean-up</td></tr><tr><td><code>retention:cursor</code></td><td>Where the daily clean-up stopped: <code>{ "phase", "after", "at" }</code>. Internal position marker, no personal data</td></tr></tbody></table>
 <h2>5. Merge record</h2>
